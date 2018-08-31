@@ -1,0 +1,83 @@
+@charset "UTF-8";
+
+html {
+  height: 100%;
+}
+
+.link_a {
+  text-decoration: none;
+  border: 0;
+  color: inherit;
+}
+
+input {
+  font-family: inherit;
+}
+
+body {
+  margin: 0;
+  height: 100%;
+  font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","\5FAE\8F6F\96C5\9ED1",Arial,sans-serif;
+}
+
+body #app {
+  height: 100%;
+}
+
+body #app main {
+  height: calc(100% - 72px);
+}
+
+body #app main::after {
+  clear: both;
+  display: block;
+  content: '';
+}
+
+body #app main .sidebar {
+  height: 100%;
+  position: fixed;
+  left: 0;
+  top: 72px;
+}
+
+body #app main .sidebar .df_nav {
+  height: 100%;
+}
+
+body #app main .admin_main_container {
+  margin-left: 65px;
+}
+
+body #app main .edit_article_container {
+  margin-left: 65px;
+  padding: 10px 20px;
+}
+
+.navbar-laravel {
+  background-color: #fff;
+  -webkit-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+}
+
+.form-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url(/images/background-2726039.png?d4a6f318dd7d22ad719b0422c533e293);
+}
+
+.disappear {
+  display: none;
+}
+
+ul {
+  padding: 0;
+}
+
+li {
+  list-style: none;
+}
+

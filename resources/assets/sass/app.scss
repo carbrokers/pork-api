@@ -1,0 +1,92 @@
+
+// Fonts
+
+// Variables
+@import "variables";
+@import 'header';
+// Bootstrap
+
+@mixin clearfloat {
+  clear: both;
+  display: block;
+  content: '';
+}
+
+html {
+  height: 100%;
+}
+
+.link_a {
+  text-decoration: none;
+  border: 0;
+  color: inherit;
+}
+
+input {
+  font-family: inherit;
+}
+
+
+body {
+  margin: 0;
+  height: 100%;
+  font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
+  #app {
+    height: 100%;
+
+    main {
+      height: calc(100% - 72px);
+      &::after {
+        @include clearfloat();
+      }
+
+      .sidebar {
+        height: 100%;
+        position: fixed;
+        left: 0;
+        top: 72px;
+
+        .df_nav {
+          height: 100%;
+        }
+      }
+
+      .admin_main_container {
+        margin-left: 65px;
+      }
+
+      .edit_article_container {
+        margin-left: 65px;
+        padding: 10px 20px;
+      }
+    }
+  }
+
+}
+
+.navbar-laravel {
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+}
+
+.form-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  // background: #c51162;
+  background: url(../img/background-2726039.png);
+}
+
+.disappear {
+  display: none;
+}
+
+ul {
+  padding: 0;
+}
+
+li {
+  list-style: none;
+}
