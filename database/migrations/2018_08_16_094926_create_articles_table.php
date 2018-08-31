@@ -18,7 +18,7 @@ class CreateArticlesTable extends Migration
             $table->string('title',50)->comment('标题');
             $table->text('body')->comment('文章内容');
             $table->unsignedInteger('user_id')->comment('用户ID');
-            $table->unsignedInteger('category_id')->default(0)->comment('分类ID');
+            // $table->unsignedInteger('category_id')->default(0)->comment('分类ID');
             $table->unsignedInteger('pageviews_count')->default(0)->comment('浏览量总数');
             $table->unsignedInteger('comments_count')->default(0)->comment('评论总数');
             $table->unsignedInteger('favorites_count')->default(0)->comment('收藏总数');
@@ -26,7 +26,7 @@ class CreateArticlesTable extends Migration
             $table->boolean('is_hidden')->default(0)->comment('是否隐藏该诗文');
             $table->timestamp('deleted_at')->nullable();
             $table->timestamps();
-            $table->index(['user_id', 'category_id']);
+            $table->index(['user_id']);
         });
     }
 
