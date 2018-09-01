@@ -10,14 +10,15 @@
                 v-model="value"
                 @keyup.enter="createCategory"
                 @keyup.delete="deleteCategry"
+                @blur="onblur"
                 :style="{'text-indent':textIndent}"
+
             />
             <div class="selected_area" ref="_select">
                 <span v-for="(selected) in catgValue" :key="selected.id">
                     {{selected.name}}
                 </span>
             </div>
-             <span></span>
         </div>
         <ul class="search_list" v-show="searchList.length > 0">
             <li v-for="(item) in searchList" :key="item.id" @click="selectCatg(item)">
@@ -93,6 +94,14 @@
                    return 
                 }
                 this.textIndent = `${51 * this.catgValue.length + 5}px`
+            },
+
+            onblur() {
+                let str = ''
+                if(this.catgValue.length > 0) {
+                    str = '111'
+                }
+                this.$emit('blurstr','catg',str)
             }
 
         },

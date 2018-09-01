@@ -62559,7 +62559,7 @@ exports = module.exports = __webpack_require__(5)(false);
 
 
 // module
-exports.push([module.i, "\n.edit_area .input_area {\n  font-size: 24px;\n  margin-bottom: 15px;\n}\n.edit_area .input_area::after {\n    content: '';\n    clear: both;\n    display: block;\n}\n.edit_area .input_area label {\n    float: left;\n    margin-top: 6px;\n    margin-right: 10px;\n}\n.edit_area .input_area label i {\n      font-size: 25px;\n}\n.edit_area .input_area input {\n    -webkit-box-sizing: border-box;\n            box-sizing: border-box;\n    outline: none;\n    border-radius: 2px;\n    border: 0;\n    width: 300px;\n    height: 45px;\n    text-indent: 10px;\n    border: 1px solid #e3e2e3;\n    color: #4a4a4a;\n}\n.edit_area .save {\n  margin-top: 20px;\n  width: 80px;\n  background: #651FFF;\n  line-height: 40px;\n  color: #fff;\n  text-align: center;\n  letter-spacing: 1px;\n  border-radius: 5px;\n  -webkit-box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.15);\n          box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.15);\n  cursor: pointer;\n}\n", ""]);
+exports.push([module.i, "\n.edit_area .wrong {\n  font-size: 12px;\n  color: #e4393c;\n}\n.edit_area .input_area {\n  font-size: 24px;\n  margin-bottom: 15px;\n}\n.edit_area .input_area::after {\n    content: '';\n    clear: both;\n    display: block;\n}\n.edit_area .input_area label {\n    float: left;\n    margin-top: 6px;\n    margin-right: 10px;\n}\n.edit_area .input_area label i {\n      font-size: 25px;\n}\n.edit_area .input_area input {\n    -webkit-box-sizing: border-box;\n            box-sizing: border-box;\n    outline: none;\n    border-radius: 2px;\n    border: 0;\n    width: 300px;\n    height: 45px;\n    text-indent: 10px;\n    border: 1px solid #e3e2e3;\n    color: #4a4a4a;\n}\n.edit_area .save {\n  margin-top: 20px;\n  width: 80px;\n  background: #651FFF;\n  line-height: 40px;\n  color: #fff;\n  text-align: center;\n  letter-spacing: 1px;\n  border-radius: 5px;\n  -webkit-box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.15);\n          box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.15);\n  cursor: pointer;\n}\n", ""]);
 
 // exports
 
@@ -62574,6 +62574,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_axios__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__catgComp_vue__ = __webpack_require__(227);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__catgComp_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__catgComp_vue__);
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -62617,7 +62623,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         return {
             editorValue: '',
             articleName: '',
-            catgValue: []
+            catgValue: [],
+            wrong: {
+                title: false,
+                catg: false
+            }
         };
     },
 
@@ -62629,14 +62639,28 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         deleteCategory: function deleteCategory() {
             this.catgValue.splice(this.catgValue.length - 1, 1);
         },
+        blur: function blur(type, val) {
+            if (val.trim() == '') {
+                this.wrong[type] = true;
+            } else {
+                this.wrong[type] = false;
+            }
+        },
         save: function save() {
+            if (!this.wrong.title || !this.wrong.catg) return;
             __WEBPACK_IMPORTED_MODULE_0_axios___default.a.post('/admin/article/create', {
                 articleName: this.articleName,
                 articleContent: this.editorValue,
                 category: this.catgValue,
                 userId: this.userId
             }).then(function (resp) {
-                console.log('success');
+                var result = resp.data;
+                if (result.success) {
+                    alert('添加成功');
+                    location.reload();
+                } else {
+                    alert('添加失败');
+                }
             });
         }
     }
@@ -62770,6 +62794,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -62837,6 +62862,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 return;
             }
             this.textIndent = 51 * this.catgValue.length + 5 + 'px';
+        },
+        onblur: function onblur() {
+            var str = '';
+            if (this.catgValue.length > 0) {
+                str = '111';
+            }
+            this.$emit('blurstr', 'catg', str);
         }
     },
 
@@ -62896,6 +62928,7 @@ var render = function() {
               return _vm.deleteCategry($event)
             }
           ],
+          blur: _vm.onblur,
           input: function($event) {
             if ($event.target.composing) {
               return
@@ -62915,9 +62948,7 @@ var render = function() {
             )
           ])
         })
-      ),
-      _vm._v(" "),
-      _c("span")
+      )
     ]),
     _vm._v(" "),
     _c(
@@ -62996,6 +63027,9 @@ var render = function() {
           attrs: { type: "text", name: "subject", placeholder: "标题" },
           domProps: { value: _vm.articleName },
           on: {
+            blur: function($event) {
+              _vm.blur("title", $event.target.value)
+            },
             input: function($event) {
               if ($event.target.composing) {
                 return
@@ -63003,24 +63037,67 @@ var render = function() {
               _vm.articleName = $event.target.value
             }
           }
-        })
+        }),
+        _vm._v(" "),
+        _c(
+          "span",
+          {
+            directives: [
+              {
+                name: "show",
+                rawName: "v-show",
+                value: _vm.wrong.title,
+                expression: "wrong.title"
+              }
+            ],
+            staticClass: "wrong"
+          },
+          [_vm._v("标题不能为空")]
+        )
       ]),
       _vm._v(" "),
       _c("catg-list", {
-        attrs: { catgValue: _vm.catgValue },
-        on: { addCategory: _vm.addCategory, deleteCategory: _vm.deleteCategory }
-      }),
-      _vm._v(" "),
-      _c("mavon-editor", {
-        attrs: { placeholder: "文章内容" },
-        model: {
-          value: _vm.editorValue,
-          callback: function($$v) {
-            _vm.editorValue = $$v
-          },
-          expression: "editorValue"
+        attrs: { catgValue: _vm.catgValue, wrong: _vm.wrong.catg },
+        on: {
+          blurstr: _vm.blur,
+          addCategory: _vm.addCategory,
+          deleteCategory: _vm.deleteCategory
         }
       }),
+      _vm._v(" "),
+      _c(
+        "span",
+        {
+          directives: [
+            {
+              name: "show",
+              rawName: "v-show",
+              value: _vm.wrong.catg,
+              expression: "wrong.catg"
+            }
+          ],
+          staticClass: "wrong"
+        },
+        [_vm._v("分类不能为空")]
+      ),
+      _vm._v(" "),
+      _c(
+        "div",
+        { staticClass: "editor_area" },
+        [
+          _c("mavon-editor", {
+            attrs: { placeholder: "文章内容" },
+            model: {
+              value: _vm.editorValue,
+              callback: function($$v) {
+                _vm.editorValue = $$v
+              },
+              expression: "editorValue"
+            }
+          })
+        ],
+        1
+      ),
       _vm._v(" "),
       _c("div", { staticClass: "save", on: { click: _vm.save } }, [
         _vm._v("\n        save\n    ")

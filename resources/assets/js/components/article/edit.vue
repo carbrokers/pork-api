@@ -4,17 +4,23 @@
             <label for="subject">
                 <i class="pork-icon-alert"></i>
             </label>
-            <input type="text" name="subject" placeholder="标题" v-model="articleName">
+            <input type="text" name="subject" placeholder="标题" v-model="articleName" @blur="blur('title',$event.target.value)">
+            <span class="wrong" v-show="wrong.title">标题不能为空</span>
         </div>
         <catg-list 
             :catgValue="catgValue"
+            :wrong="wrong.catg"
+            @blurstr="blur"
             @addCategory="addCategory"
-            @deleteCategory="deleteCategory"
-        />
-        <mavon-editor 
-            v-model="editorValue"
-            placeholder="文章内容"
-        />
+            @deleteCategory="deleteCategory">
+        </catg-list>
+        <span class="wrong" v-show="wrong.catg">分类不能为空</span>
+        <div class="editor_area">
+            <mavon-editor 
+                v-model="editorValue"
+                placeholder="文章内容">
+            </mavon-editor>
+        </div>
         <div class="save" @click="save">
             save
         </div>
@@ -41,10 +47,14 @@
             return {
                 editorValue: '',
                 articleName: '',
-                catgValue: []
+                catgValue: [],
+                wrong: {
+                    title: false,
+                    catg: false,
+                }
             }
         },
-        
+
         methods: {
             addCategory(item) {
                 this.catgValue.push(item)
@@ -54,14 +64,29 @@
                 this.catgValue.splice(this.catgValue.length - 1, 1)
             },
 
+            blur(type,val) {
+                if(val.trim() == '') {
+                    this.wrong[type] = true
+                } else {
+                    this.wrong[type] = false
+                }
+            },
+
             save() {
+                if(!this.wrong.title || !this.wrong.catg) return 
                 axios.post('/admin/article/create',{
                     articleName: this.articleName,
                     articleContent: this.editorValue,
                     category: this.catgValue,
                     userId: this.userId
                 }).then(resp => {
-                    console.log('success')
+                    let result = resp.data
+                    if(result.success) {
+                        alert('添加成功')
+                        location.reload()
+                    } else {
+                        alert('添加失败')
+                    }
                 })
             }
         }
@@ -70,6 +95,15 @@
 
 <style lang="scss">
     .edit_area {
+
+        .wrong {
+            font-size: 12px;
+            color: #e4393c;
+        }
+
+        .catg_wrong {
+
+        }
         
         .input_area {
             font-size: 24px;
@@ -113,6 +147,10 @@
             border-radius: 5px;
             box-shadow: 1px 1px 4px rgba(0,0,0,0.15);
             cursor: pointer;
+        }
+
+        .editor_area {
+
         }
     }
 </style>
