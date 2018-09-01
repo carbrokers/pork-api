@@ -29,4 +29,12 @@ class ArticleController extends Controller
             'success' => $result
         ];
     }
+
+    public function list(Request $result) 
+    {
+        $articleList = $this->article->GetArticleList();
+        return view('admin.articleList',[
+            'articleList' => $articleList 
+        ]);
+    }
 }

@@ -38,14 +38,18 @@
         //获取所有的分类id
         $categoryIds = array_merge($categoryIds,$rs);
         //插入并获取文章id
-        $articleId = $this->article
-          ->insertGetId([
+        $articleId = Article::create([
             'title' => $requestData['articleName'],
             'body' => $requestData['articleContent'],
             'user_id' => $requestData['userId'],
-          ]);
-          //批量添加结果
-          $result = ArtsCatgsRelation::bactchAdd($articleId,$categoryIds);
-          return $result;
+          ])->id;
+        //批量添加结果
+        $result = ArtsCatgsRelation::bactchAdd($articleId,$categoryIds);
+        return $result;
+      }
+
+      public function GetArticleList()
+      {
+          return Article::all(['title','id','created_at','favorites_count'])->toJson();
       }
     }

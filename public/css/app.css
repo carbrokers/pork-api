@@ -45,13 +45,13 @@ body #app main .sidebar .df_nav {
   height: 100%;
 }
 
-body #app main .admin_main_container {
-  margin-left: 65px;
+body #app main > div:last-child.edit_article_container {
+  padding: 10px 20px;
 }
 
-body #app main .edit_article_container {
+body #app main > div:last-child {
   margin-left: 65px;
-  padding: 10px 20px;
+  padding: 20px 0 10px 0;
 }
 
 .navbar-laravel {

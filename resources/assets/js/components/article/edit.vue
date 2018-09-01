@@ -14,7 +14,6 @@
             @addCategory="addCategory"
             @deleteCategory="deleteCategory">
         </catg-list>
-        <span class="wrong" v-show="wrong.catg">分类不能为空</span>
         <div class="editor_area">
             <mavon-editor 
                 v-model="editorValue"
@@ -26,7 +25,6 @@
         </div>
     </div>
 </template>
-
 <script>
     import axios from 'axios'
     import CatgList from './catgComp.vue'
@@ -73,7 +71,7 @@
             },
 
             save() {
-                if(!this.wrong.title || !this.wrong.catg) return 
+                if(!this.wrong.title && !this.wrong.catg) return 
                 axios.post('/admin/article/create',{
                     articleName: this.articleName,
                     articleContent: this.editorValue,

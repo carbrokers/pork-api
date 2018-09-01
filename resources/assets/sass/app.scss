@@ -52,12 +52,15 @@ body {
       }
 
       .admin_main_container {
-        margin-left: 65px;
       }
 
-      .edit_article_container {
-        margin-left: 65px;
+      >div:last-child.edit_article_container {
         padding: 10px 20px;
+      }
+
+      >div:last-child {
+        margin-left: 65px;
+        padding: 20px 0 10px 0;
       }
     }
   }

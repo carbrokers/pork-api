@@ -20,6 +20,7 @@ import AdminHeader from './components/layout/header'
 import NavMenu from './components/layout/Sidebar.vue'
 import Home from './components/home'
 import EditArticle from './components/article/edit.vue'
+import ArticleList from './components/article/list.vue'
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -35,6 +36,7 @@ const app = new Vue({
         AdminHeader,
         NavMenu,
         Home,
-        EditArticle
+        EditArticle,
+        ArticleList
     }
 });

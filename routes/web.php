@@ -29,11 +29,10 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Backend\Controllers'],functio
         Route::group(['prefix' => 'article'], function() {
             Route::get('/create','ArticleController@create');
             Route::post('/create','ArticleController@store');
+            Route::get('/list','ArticleController@list');
         });
 
-        
         Route::group(['prefix' => 'category'], function() {
-            
             Route::get('/','Category@index');
             
         });

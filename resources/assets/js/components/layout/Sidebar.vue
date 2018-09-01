@@ -18,10 +18,12 @@
                         <span slot="title">新建文章</span>
                     </el-menu-item>                
                 </a>
+                <a href="/admin/article/list" class="link_a">
                 <el-menu-item index="2-1-2">
                     <i class="pork-icon-sync"></i>
                     <span slot="title">编辑文章</span>
-                </el-menu-item>                   
+                </el-menu-item>   
+                </a>                
                 <el-menu-item index="2-1-3">
                     <i class="pork-icon-close-circle"></i>
                     <span slot="title">删除文章</span>
