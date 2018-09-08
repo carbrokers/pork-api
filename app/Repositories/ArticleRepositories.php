@@ -52,4 +52,18 @@
       {
           return Article::all(['title','id','created_at','favorites_count'])->toJson();
       }
+
+      public function GetArticleDataById($id) 
+      {
+        $article = Article::where('id',$id)->first();
+        $catgs = [];
+        foreach ($article->categories as $catg) {
+          $catgs[] = $catg->first(['id','name']);
+        }
+        return [
+          'title' => $article->title,
+          'body' => $article->body,
+          'categories' => $catgs
+        ];
+      }
     }

@@ -41,7 +41,7 @@
             <template slot-scope="scope">
                 <el-button
                 size="mini"
-                @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+                @click="handleEdit(scope.row.id)">编辑</el-button>
                 <el-button
                 size="mini"
                 type="danger"
@@ -63,6 +63,7 @@ export default {
     created() {
         this.tableData = this.artList.map((item) => {
             return {
+                id: item.id,
                 name: item.title,
                 date: item.created_at.split(' ')[0],
                 liked: item.favorites_count,
@@ -78,11 +79,11 @@ export default {
         }
     },
     methods: {
-        handleEdit(index, row) {
-            console.log(index, row)
+        handleEdit(articleId) {
+            location.href=`/admin/article/edit/${articleId}`
         },
-        handleDelete(index, row) {
-            console.log(index, row)
+        handleDelete(index,row) {
+        //    location.href=`/admin/article/edit/${articleId}`
         }
     }
 }

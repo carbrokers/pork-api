@@ -30,7 +30,12 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Backend\Controllers'],functio
             Route::get('/create','ArticleController@create');
             Route::post('/create','ArticleController@store');
             Route::get('/list','ArticleController@list');
+            Route::get('/edit/{id}', 'ArticleController@edit');
+            Route::post('/edit','ArticleController@editStore');
+            
         });
+
+        
 
         Route::group(['prefix' => 'category'], function() {
             Route::get('/','Category@index');

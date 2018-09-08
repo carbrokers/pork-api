@@ -38,11 +38,15 @@
             selectedCatgs: {
                 type: Array
             },
-            userId: ""
+            userId: "",
+            articleId: {
+                type: String || undefined
+            }
         },
 
         data() {
             return {
+                isEdit: this.articleId ? true : false,
                 editorValue: '',
                 articleName: '',
                 catgValue: [],
@@ -51,6 +55,24 @@
                     catg: false,
                 }
             }
+        },
+
+
+        mounted() {
+            if(!this.isEdit) return 
+            axios.post('/admin/article/edit',{
+                id: this.articleId
+            }).then(resp => {
+                let {
+                    title,
+                    body,
+                    categories
+                } = resp.data
+                this.articleName = title
+                this.editorValue = body
+                this.catgValue = categories
+                
+            })
         },
 
         methods: {

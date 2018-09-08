@@ -20,6 +20,18 @@ class ArticleController extends Controller
         return view('admin.editArticle');
     }
 
+    public function edit(Request $request, $id) 
+    {
+        $articleId = $id;
+        return view('admin.editArticle',compact('articleId'));
+    }
+
+    public function editStore(Request $request) 
+    {
+        $articleData = $this->article->GetArticleDataById($request->id);
+        return $articleData;  
+    }
+
     public function store(Request $request)
     {
         $requestData = $request->only(['articleName','articleContent','category','userId']);
