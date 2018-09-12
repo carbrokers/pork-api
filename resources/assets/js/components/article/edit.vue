@@ -93,17 +93,19 @@
             },
 
             save() {
-                if(!this.wrong.title && !this.wrong.catg) return 
-                axios.post('/admin/article/create',{
+                if(this.wrong.title ||  this.wrong.catg) return 
+                axios.post('/admin/article/save',{
+                    userId: this.userId,
+                    articleId: this.articleId,
+                    isEdit: this.isEdit,
                     articleName: this.articleName,
                     articleContent: this.editorValue,
                     category: this.catgValue,
-                    userId: this.userId
                 }).then(resp => {
                     let result = resp.data
                     if(result.success) {
                         alert('添加成功')
-                        location.reload()
+                        location.href="/admin/article/list"
                     } else {
                         alert('添加失败')
                     }

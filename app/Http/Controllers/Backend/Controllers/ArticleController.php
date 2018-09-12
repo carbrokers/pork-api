@@ -34,8 +34,14 @@ class ArticleController extends Controller
 
     public function store(Request $request)
     {
-        $requestData = $request->only(['articleName','articleContent','category','userId']);
-        $result = $this->article->CreateArticleWithCategory($requestData);
+        $result;
+        $requestData = $request->only(['articleName','articleContent','category','userId','isEdit','articleId']);
+
+        if($requestData['isEdit']) {
+            $result = $this->article->UpdateArticle($requestData);
+        } else {
+            $result = $this->article->CreateArticleWithCategory($requestData);
+        }
         
         return [
             'success' => $result

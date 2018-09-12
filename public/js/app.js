@@ -62682,17 +62682,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }
         },
         save: function save() {
-            if (!this.wrong.title && !this.wrong.catg) return;
-            __WEBPACK_IMPORTED_MODULE_0_axios___default.a.post('/admin/article/create', {
+            if (this.wrong.title || this.wrong.catg) return;
+            __WEBPACK_IMPORTED_MODULE_0_axios___default.a.post('/admin/article/save', {
+                userId: this.userId,
+                articleId: this.articleId,
+                isEdit: this.isEdit,
                 articleName: this.articleName,
                 articleContent: this.editorValue,
-                category: this.catgValue,
-                userId: this.userId
+                category: this.catgValue
             }).then(function (resp) {
                 var result = resp.data;
                 if (result.success) {
                     alert('添加成功');
-                    location.reload();
+                    location.href = "/admin/article/list";
                 } else {
                     alert('添加失败');
                 }

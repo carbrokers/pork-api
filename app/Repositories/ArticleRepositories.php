@@ -15,6 +15,7 @@
         $this->article = new Article();
       }
       
+      //创建文章
       public function CreateArticleWithCategory($requestData) 
       {
         $userId = $requestData['userId'];
@@ -48,6 +49,14 @@
         return $result;
       }
 
+      //更新文章
+      public function UpdateArticle($requestData)
+      {
+        Article::where('id',$requestData['articleId'])
+          ->update(['title' => $requestData['articleName'],'body' => $requestData['articleContent']]);
+        return true;
+      }
+
       public function GetArticleList()
       {
           return Article::all(['title','id','created_at','favorites_count'])->toJson();
@@ -58,8 +67,12 @@
         $article = Article::where('id',$id)->first();
         $catgs = [];
         foreach ($article->categories as $catg) {
-          $catgs[] = $catg->first(['id','name']);
+          array_push($catgs,[
+            'id' => $catg->id,
+            'name' => $catg->name
+          ]);
         }
+        // dd($article->id);
         return [
           'title' => $article->title,
           'body' => $article->body,
