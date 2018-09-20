@@ -26,6 +26,7 @@
             'title' => $requestData['articleName'],
             'body' => $requestData['articleContent'],
             'user_id' => $requestData['userId'],
+            'render' => $requestData['render']
           ])->id;
         //批量添加结果
         $result = ArtsCatgsRelation::bactchAdd($articleId,$categoryIds);
@@ -37,7 +38,11 @@
       {
         $categoryIds = $this->CreateAndGetCategoryIds($requestData['category']);
         Article::where('id',$requestData['articleId'])
-          ->update(['title' => $requestData['articleName'],'body' => $requestData['articleContent']]);
+          ->update([
+            'title' => $requestData['articleName'],
+            'body' => $requestData['articleContent'],
+            'render' => $requestData['render']
+          ]);
         ArtsCatgsRelation::where('article_id',$requestData['articleId'])->delete();
         $result = ArtsCatgsRelation::bactchAdd($requestData['articleId'],$categoryIds);
         return true;

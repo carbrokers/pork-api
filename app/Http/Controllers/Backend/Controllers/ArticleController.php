@@ -35,8 +35,7 @@ class ArticleController extends Controller
     public function store(Request $request)
     {
         $result;
-        $requestData = $request->only(['articleName','articleContent','category','userId','isEdit','articleId']);
-
+        $requestData = $request->only(['articleName','articleContent','category','userId','isEdit','articleId','render']);
         if($requestData['isEdit']) {
             $result = $this->article->UpdateArticle($requestData);
         } else {

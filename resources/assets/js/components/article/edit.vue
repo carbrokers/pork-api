@@ -17,6 +17,7 @@
         <div class="editor_area">
             <mavon-editor 
                 v-model="editorValue"
+                @change="textChange"
                 placeholder="文章内容">
             </mavon-editor>
         </div>
@@ -50,13 +51,13 @@
                 editorValue: '',
                 articleName: '',
                 catgValue: [],
+                render: '',
                 wrong: {
                     title: false,
                     catg: false,
                 }
             }
         },
-
 
         mounted() {
             if(!this.isEdit) return 
@@ -66,12 +67,13 @@
                 let {
                     title,
                     body,
-                    categories
+                    categories,
+                    render
                 } = resp.data
                 this.articleName = title
                 this.editorValue = body
                 this.catgValue = categories
-                
+                this.render = render
             })
         },
 
@@ -91,8 +93,13 @@
                     this.wrong[type] = false
                 }
             },
+            textChange(value, render) {
+                this.render = render
+            },
 
             save() {
+                console.log(this.wrong.title)
+                console.log(this.wrong.catg)
                 if(this.wrong.title ||  this.wrong.catg) return 
                 axios.post('/admin/article/save',{
                     userId: this.userId,
@@ -101,6 +108,7 @@
                     articleName: this.articleName,
                     articleContent: this.editorValue,
                     category: this.catgValue,
+                    render: this.render
                 }).then(resp => {
                     let result = resp.data
                     if(result.success) {
@@ -121,10 +129,6 @@
         .wrong {
             font-size: 12px;
             color: #e4393c;
-        }
-
-        .catg_wrong {
-
         }
         
         .input_area {

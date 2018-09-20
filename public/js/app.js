@@ -62617,6 +62617,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 
 
@@ -62642,6 +62643,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             editorValue: '',
             articleName: '',
             catgValue: [],
+            render: '',
             wrong: {
                 title: false,
                 catg: false
@@ -62658,11 +62660,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var _resp$data = resp.data,
                 title = _resp$data.title,
                 body = _resp$data.body,
-                categories = _resp$data.categories;
+                categories = _resp$data.categories,
+                render = _resp$data.render;
 
             _this.articleName = title;
             _this.editorValue = body;
             _this.catgValue = categories;
+            _this.render = render;
         });
     },
 
@@ -62681,7 +62685,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 this.wrong[type] = false;
             }
         },
+        textChange: function textChange(value, render) {
+            this.render = render;
+        },
         save: function save() {
+            console.log(this.wrong.title);
+            console.log(this.wrong.catg);
             if (this.wrong.title || this.wrong.catg) return;
             __WEBPACK_IMPORTED_MODULE_0_axios___default.a.post('/admin/article/save', {
                 userId: this.userId,
@@ -62689,7 +62698,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 isEdit: this.isEdit,
                 articleName: this.articleName,
                 articleContent: this.editorValue,
-                category: this.catgValue
+                category: this.catgValue,
+                render: this.render
             }).then(function (resp) {
                 var result = resp.data;
                 if (result.success) {
@@ -63108,6 +63118,7 @@ var render = function() {
         [
           _c("mavon-editor", {
             attrs: { placeholder: "文章内容" },
+            on: { change: _vm.textChange },
             model: {
               value: _vm.editorValue,
               callback: function($$v) {
