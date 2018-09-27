@@ -20,6 +20,7 @@ use Illuminate\Http\Request;
 Route::group(['namespace' => 'Api\Controllers'], function() {
    Route::group(['prefix' => 'blog'], function() {
        Route::get('/','ArticleController@index');
+       Route::get('/article','ArticleController@article');
    });
 });
 

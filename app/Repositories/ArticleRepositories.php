@@ -4,7 +4,7 @@
     use App\Model\Article;
     use App\Model\ArtsCatgsRelation;
 
-    class ArticleRepositories
+    class ArticleRepositories extends Repository
     {
       protected $category;
       protected $article;
@@ -13,6 +13,11 @@
       {
         $this->category = new Category();
         $this->article = new Article();
+      }
+
+      function model()
+      {
+          return 'App\Http\Frontend\Models\Appreciation';
       }
       
       //创建文章
@@ -66,6 +71,7 @@
         return [
           'title' => $article->title,
           'body' => $article->body,
+          'render' => $article->render,
           'categories' => $catgs
         ];
       }
@@ -91,4 +97,23 @@
         $categoryIds = array_merge($categoryIds,$rs);
         return $categoryIds;
       }
+
+      //========================API====================
+      public function ApiGetArticleList() {
+        $paginate = (new Article())
+          ->with(['categories' => function($query) {
+            $query->select('name','category_id');
+          }])
+          ->select('id','render','created_at','title')
+          ->orderBy('created_at','desc')
+          ->get()
+          ->toArray();
+        $paginate = array_map(function($article) {
+          $render = preg_replace('/<[^>]+>/','',$article['render']);
+          $article['render'] = substr($render,0,450);
+          return $article;
+        },$paginate);
+        return $paginate;
+      }
+
     }
